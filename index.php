@@ -35,17 +35,21 @@
                          'posts_per_page' => 10, // Adjust the number of posts you want to show
                      );
                      $query = new WP_Query($args);
-             
                      if ($query->have_posts()) {
+                        $i = 0;
                          while ($query->have_posts()) {
-                             $query->the_post(); // It alters the title and content of the current post.
-                     ?>
+                            $i += 1;
+                            $name = "portfolioModal{$i}";
+                            $query->the_post(); // It alters the title and content of the current post.
+                             
+                  ?>
                     
                     <!-- Portfolio Item 1-->
                     <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target=<?php echo "'#{$name}'" ?>>
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                                <div class="portfolio-item-caption-content text-center text-white">
+                                    <i><?php the_title();?></i></div>
                             </div>
                             <img 
                                 src="<?php echo get_the_post_thumbnail_url(); ?>" 
@@ -58,7 +62,7 @@
                     
                      <!-- Portfolio Modals-->
                     <!-- Portfolio Modal 1-->
-                    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+                    <div class="portfolio-modal modal fade" id=<?php echo "'{$name}'" ?> tabindex="-1" aria-labelledby=<?php echo "'{$name}'" ?> aria-hidden="true">
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
@@ -67,8 +71,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-lg-8">
                                                 <!-- Portfolio Modal - Title-->
-                                                <h1><?php the_title(); ?></h1>
-                                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0"><?php the_title(); ?></h2>
+                                                <h1><?php the_title() ?></h1>
                                                 <!-- Icon Divider-->
                                                 <div class="divider-custom">
                                                     <div class="divider-custom-line"></div>
@@ -78,7 +81,7 @@
                                                 <!-- Portfolio Modal - Image-->
                                                 <?php the_post_thumbnail('thumbnail',array('style' => 'width:300px; height: 300px; ')) ?>
                                                 <!-- Portfolio Modal - Text-->
-                                                <p class="mb-4"><?php the_excerpt(); ?></p>
+                                                 <br>
                                                 <button class="btn btn-primary" data-bs-dismiss="modal">
                                                     <i class="fas fa-xmark fa-fw"></i>
                                                     Close Window
